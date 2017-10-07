@@ -45,17 +45,16 @@
     d3.select("div.legend").append("p")
         .attr("top", "100px")
         .attr("left", "0")
-        .html("<b>Кількість депутатів: </b>"+ "</br>" + "<span style='font-size: 8px'>Прізвище: до 5</span>" + "</br>" +
+        .html("<b>Кількість депутатів: </b>" + "</br>" + "<span style='font-size: 8px'>Прізвище: до 5</span>" + "</br>" +
             "<span style='font-size: 10px'>Прізвище: 5-9</span>" + "</br>" +
             "<span style='font-size: 12px'>Прізвище: 10-19</span>" + "</br>" +
-            "<span style='font-size: 13px'>Прізвище: 20-29</span>" + "</br>" +
-            "<span style='font-size: 15px'>Прізвище: 30-39</span>" + "</br>" +
-            "<span style='font-size: 17px'>Прізвище: 40-49</span>" + "</br>" +
-            "<span style='font-size: 19px'>Прізвище: від 50</span>" + "</br>"
+            "<span style='font-size: 14px'>Прізвище: 20-29</span>" + "</br>" +
+            "<span style='font-size: 16px'>Прізвище: 30-39</span>" + "</br>" +
+            "<span style='font-size: 18px'>Прізвище: 40-49</span>" + "</br>" +
+            "<span style='font-size: 20px'>Прізвище: від 50</span>" + "</br>"
         )
 
     ;
-
 
 
     function click(data) {
@@ -70,7 +69,6 @@
             .html("<span style='color:white; background-color:#8e8f91; padding:5px; font-size: 15px' >" + "<b>" + data[2].region + " область" + "</b>" + "<span>");
 
 
-
         data.forEach(function (d) {
 
             d.councillors = +d.councillors;
@@ -78,13 +76,13 @@
             if (d.councillors < 5) {
                 var fontSize = "8px"
             }
-            else if (d.councillors >= 5 && d.councillors < 10 ) {
+            else if (d.councillors >= 5 && d.councillors < 10) {
                 var fontSize = "10px"
             }
-            else if (d.councillors >= 10 && d.councillors < 20 ) {
+            else if (d.councillors >= 10 && d.councillors < 20) {
                 var fontSize = "12px"
             }
-            else if (d.councillors >= 20 && d.councillors < 30 ) {
+            else if (d.councillors >= 20 && d.councillors < 30) {
                 var fontSize = "14px"
             }
             else if (d.councillors >= 30 && d.councillors < 40) {
@@ -105,21 +103,8 @@
                 .style("font-size", fontSize)
                 .attr("line-height", "1em !important");
 
-//            var tip = d3.tip()
-//                .attr('class', 'd3-tip')
-//                .html(d.fullname)
-//                .style("font-size", fontSize * 10);
 
-            var svg = d3.select("svg");
-
-            div
-                .transition()
-                .delay(2000)
-                .duration(300)
-                .style("opacity",0);
-
-//            svg.call(tip);
-//            tip.show();
+            div.transition().delay(2000).duration(300).style("opacity", 0);
 
 
         });
@@ -128,48 +113,46 @@
     }
 
 
-
     d3.csv("data/facets.csv", function (error, data) {
-     if (error) {
-         throw error
-     }
+        if (error) {
+            throw error
+        }
 
 
-     d3.xml("svg/test2.svg").mimeType("image/svg+xml").get(function (error, xml) {
-         if (error) {
-             throw error
-         }
+        d3.xml("svg/test2.svg").mimeType("image/svg+xml").get(function (error, xml) {
+            if (error) {
+                throw error
+            }
 
 
-         d3.select("#myshape").node().appendChild(xml.documentElement);
+            d3.select("#myshape").node().appendChild(xml.documentElement);
 
-         var svg = d3.select("svg");
-
-
-         var tooltip = d3.select("body").append("div")
-             .attr("class", "tooltips")
-             .style("opacity", 0);
-
-         var districts = svg.selectAll("g#oblast")
-             .each(function () {
-                 d3.select(this)
-                     .datum(function () {
-                         var gClass = this.classList.value;
-                         return data.filter(function (d) {
-                             return d.key === gClass;
-                         });
-                     })
-                     .on("click", click);
-             });
-
-         svg.attr("width", "1000px");
+            var svg = d3.select("svg");
 
 
-             });
+            var tooltip = d3.select("body").append("div")
+                .attr("class", "tooltips")
+                .style("opacity", 0);
+
+            var districts = svg.selectAll("g#oblast")
+                .each(function () {
+                    d3.select(this)
+                        .datum(function () {
+                            var gClass = this.classList.value;
+                            return data.filter(function (d) {
+                                return d.key === gClass;
+                            });
+                        })
+                        .on("click", click);
+                });
+
+            svg.attr("width", "1000px");
 
 
-     });
+        });
 
+
+    });
 
 
 </script>
